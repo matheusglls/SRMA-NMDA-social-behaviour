@@ -1,6 +1,7 @@
 # Effects of NMDA antagonists on social behavior: a systematic review and meta-analysis of preclinical studies
 
-[![DOI](https://zenodo.org/badge/18284730.svg)](https://doi.org/10.5281/zenodo.18284730)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.18284730-blue)](https://doi.org/10.5281/zenodo.18284730)
+[![OSF](https://img.shields.io/badge/OSF-98fau-blue)](https://osf.io/98fau/)
 
 This repository contains the data, analysis code, and outputs associated with a **systematic review and meta-analysis** examining the effects of non-competitive N-methyl-D-aspartate receptor (NMDAR) antagonists on **social behaviour** in laboratory animals, with secondary analyses assessing the modulatory effects of clinically approved antipsychotics and locomotor activity as a control outcome.
 
