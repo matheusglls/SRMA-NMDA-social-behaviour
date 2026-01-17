@@ -1,0 +1,5 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Antipsychotic route","atp_administration_routeIntraperitoneal",-0.531447154177189,0.163960613634338,-0.852809956900491,-0.210084351453888
+"Moderator: Antipsychotic route","atp_administration_routeOral",-0.286958043618842,0.28124135333801,-0.838191096161341,0.264275008923658
+"Moderator: Antipsychotic route","atp_administration_routeSubcutaneous",-0.473169759144812,0.118302964040895,-0.705043568664967,-0.241295949624657
+"Moderator: Antipsychotic route","atp_administration_routeUnclear",-2.72733146950051,1.20855953642509,-5.09610816089368,-0.358554778107341

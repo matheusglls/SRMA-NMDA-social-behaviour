@@ -1,0 +1,6 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Administration route","nmda_administration_routeImmersion",-2.46536452172882,0.57209549018442,-3.58667168249029,-1.34405736096736
+"Moderator: Administration route","nmda_administration_routeIntraperitoneal",-1.03124954488029,0.211812294294396,-1.44640164169731,-0.616097448063279
+"Moderator: Administration route","nmda_administration_routeMinipump",-1.54553813118142,0,-1.54553813118142,-1.54553813118142
+"Moderator: Administration route","nmda_administration_routeSubcutaneous",-1.42738042787677,0.200401882350084,-1.82016811728294,-1.03459273847061
+"Moderator: Administration route","nmda_administration_routeUnclear",-1.62103235941459,0.306522359825996,-2.22181618467354,-1.02024853415564

@@ -1,0 +1,14 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Antipsychotic × NMDA antagonist","intrcpt",1.62178968071102,5.3351016130512e-07,1.6217886350311,1.62179072639093
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Ketamine",0.831344626995996,0.663199102394484,-0.468525613697193,2.13121486768918
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Ketamine",-4.87128857460879,1.43417320809537,-7.68226806247572,-2.06030908674185
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × Ketamine",1.21292219273834,2.70432999338902,-4.08756459430414,6.51340897978082
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × Ketamine",1.00424287331028,0.707253304025422,-0.381973602579552,2.3904593492001
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × MK-801",-0.220201077699959,1.25703076869502,-2.6839813843422,2.24357922894228
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × MK-801",-7.66934873061121,2.21177783864638,-12.0044332943581,-3.33426416686431
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × MK-801",0.130118022547334,1.39883762812716,-2.6116037285819,2.87183977367657
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × MK-801",-0.237427346326748,1.24767096112997,-2.68286243014148,2.20800773748799
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionSulpiride × MK-801",-4.9640867054974,2.23784765647232,-9.35026811218315,-0.577905298811649
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Phencyclidine",0.440571074218648,0.432613381067634,-0.407351152673914,1.28849330111121
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Phencyclidine",-1.5250752727051,0.409028715963863,-2.32677155599427,-0.723378989415926
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × Phencyclidine",-1.82439160093136,1.20117302605711e-07,-1.82439183636127,-1.82439136550145

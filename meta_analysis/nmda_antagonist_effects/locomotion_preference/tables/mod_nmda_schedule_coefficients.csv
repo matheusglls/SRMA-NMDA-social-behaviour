@@ -1,0 +1,4 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Schedule","nmda_scheduleAcute",0.206035293772045,0.288186378913027,-0.358810008897489,0.770880596441579
+"Moderator: Schedule","nmda_scheduleContinuous",-0.556956700456074,0,-0.556956700456074,-0.556956700456074
+"Moderator: Schedule","nmda_scheduleRepeated",0.293972699078135,0.25883825908942,-0.213350288737127,0.801295686893398

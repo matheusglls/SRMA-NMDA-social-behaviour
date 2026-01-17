@@ -1,0 +1,4 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Antipsychotic schedule","atp_scheduleAcute",0.649396410421822,0.138138702621701,0.378644553283289,0.920148267560356
+"Moderator: Antipsychotic schedule","atp_scheduleRepeated",0.5332923281927,0.171021847231328,0.198089507619297,0.868495148766103
+"Moderator: Antipsychotic schedule","atp_scheduleUnclear",0.915882618742364,1.52187905919223,-2.0670003372744,3.89876557475913

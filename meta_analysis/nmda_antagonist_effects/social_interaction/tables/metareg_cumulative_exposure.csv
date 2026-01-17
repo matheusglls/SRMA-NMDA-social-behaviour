@@ -1,0 +1,3 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Meta-reg: nmda_cumulative_exposure","intrcpt",-1.87564913869771,0.23030879268502,-2.32705437236035,-1.42424390503507
+"Meta-reg: nmda_cumulative_exposure","nmda_cumulative_exposure",-0.00195219899824648,0.0044090705872326,-0.0105939773492224,0.00668957935272941

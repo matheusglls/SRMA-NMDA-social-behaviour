@@ -1,0 +1,543 @@
+---
+title: "Risk of Bias Assessment and Inter-rater Reliability"
+author: "Matheus Gallas-Lopes"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+    toc_depth: 3
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 600,
+  out.width = "100%"
+)
+knitr::opts_knit$set(root.dir = dirname(knitr::current_input()))
+
+# --------- Packages ----------
+pkgs <- c("readxl","dplyr","tidyr","stringr","ggplot2","scales","forcats","knitr")
+to_install <- pkgs[!(pkgs %in% installed.packages()[, "Package"])]
+if (length(to_install)) install.packages(to_install, dependencies = TRUE)
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+# --------- Output folder for figures ----------
+fig_dir <- "figures"
+if (!dir.exists(fig_dir)) dir.create(fig_dir)
+
+# --------- Colors (Low -> Unclear -> High) ----------
+pal_rob <- c("Low"="#80CBC4","Unclear"="#FFD54F","High"="#E57373")
+
+nice_label <- function(x) {
+  x |> 
+    stringr::str_replace_all("\\.", " ") |>
+    stringr::str_squish() |>
+    stringr::str_replace_all("\\s+$", "")
+}
+```
+
+## Overview of analyses
+
+### Risk of Bias (RoB)
+
+Risk of bias was evaluated across predefined methodological domains and summarized at both the domain and study levels. Distributions of low, unclear, and high risk ratings are presented using summary bar plots, while individual study judgments are visualized with traffic-light plots.
+
+### Inter-rater reliability
+
+Inter-rater reliability was assessed using observed agreement, Cohen’s kappa, and prevalence-adjusted bias-adjusted kappa (PABAK). Agreement patterns are further examined using confusion matrices, heatmaps, and domain-specific reliability estimates to identify areas of consistent and inconsistent interpretation.
+
+------------------------------------------------------------------------
+
+# Risk of Bias (RoB)
+
+<!-- Load RoB data -->
+
+```{r rob-load, include=FALSE}
+rob_file <- "rob_raw_data.xlsx"
+stopifnot(file.exists(rob_file))
+
+rob <- readxl::read_excel(rob_file)
+
+stopifnot("Study" %in% names(rob))
+
+rob_domains <- setdiff(names(rob), "Study")
+
+has_overall <- "Overall" %in% rob_domains
+
+domain_order_raw <- c(setdiff(rob_domains, "Overall"), intersect("Overall", rob_domains))
+domain_order_lab <- nice_label(domain_order_raw)
+
+rob <- rob |>
+  dplyr::mutate(
+    dplyr::across(
+      all_of(rob_domains),
+      ~ factor(.x, levels = c("High","Unclear","Low"), ordered = TRUE)
+    )
+  )
+```
+
+<!-- Prepare long format + study ordering-->
+
+```{r rob-long, include=FALSE}
+rob_long <- rob |>
+  tidyr::pivot_longer(
+    cols = all_of(rob_domains),
+    names_to = "Domain_raw",
+    values_to = "Judgment"
+  ) |>
+  dplyr::mutate(
+    Domain = factor(Domain_raw, levels = domain_order_raw, labels = domain_order_lab),
+    Judgment = factor(Judgment, levels = c("High","Unclear","Low"), ordered = TRUE)
+  )
+
+if (has_overall) {
+  overall_lab <- domain_order_lab[length(domain_order_lab)]
+  study_order <- rob_long |>
+    dplyr::filter(Domain == overall_lab) |>
+    dplyr::arrange(dplyr::desc(as.integer(Judgment)), Study) |>
+    dplyr::pull(Study)
+} else {
+  study_order <- unique(rob_long$Study)
+}
+
+rob_long <- rob_long |>
+  dplyr::mutate(
+    Study = factor(Study, levels = rev(sort(unique(Study))))
+  )
+```
+
+## Summary bar plot
+
+```{r rob-summary-data}
+rob_summary <- rob_long |>
+  dplyr::filter(!is.na(Judgment)) |>
+  dplyr::count(Domain, Judgment, name = "n") |>
+  dplyr::group_by(Domain) |>
+  dplyr::mutate(pct = n / sum(n)) |>
+  dplyr::ungroup()
+```
+
+```{r rob-summary-plot, fig.cap="Risk of bias summary across domains. Bars show proportions of Low, Unclear, and High scores.", fig.width=12, fig.height=7}
+p_rob_summary <- ggplot(rob_summary, aes(x = pct, y = Domain, fill = Judgment)) +
+  geom_col(
+    width = 0.8,
+    color = "grey60",
+    linewidth = 0.2,
+    position = position_stack(reverse = FALSE)
+  ) +
+  geom_text(
+    aes(label = ifelse(pct >= 0.03, scales::percent(pct, 1), "")),
+    position = position_stack(vjust = 0.5),
+    size = 3
+  ) +
+  scale_x_continuous(
+    labels = scales::percent_format(accuracy = 1),
+    expand = expansion(mult = c(0, 0.04))
+  ) +
+  scale_fill_manual(
+    values = pal_rob,
+    limits = c("Low","Unclear","High"),
+    drop = FALSE
+  ) +
+  scale_y_discrete(limits = rev(domain_order_lab)) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "right",
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+p_rob_summary
+
+ggsave(
+  file.path(fig_dir, "rob_summary.png"),
+  p_rob_summary,
+  width = 12,
+  height = max(6, length(domain_order_lab) * 0.55),
+  units = "in",
+  dpi = 600
+)
+```
+
+**Interpretation.** Domains with a higher proportion of **Low** judgments suggest stronger methodological rigor. Domains dominated by **Unclear** or **High** indicate potential limitations (e.g., insufficient reporting or methodological concerns). **Overall** summarizes study-level risk of bias.
+
+<!--Traffic-light plot (all studies)-->
+
+```{r p_rob_traffic, include=FALSE}
+p_rob_traffic <- ggplot(rob_long, aes(x = Domain, y = Study, fill = Judgment)) +
+  geom_tile(color = "white", linewidth = 0.6) +
+  scale_fill_manual(values = pal_rob, breaks = c("Low","Unclear","High"), drop = FALSE) +
+  labs(x = NULL, y = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    panel.grid = element_blank(),
+    legend.position = "right"
+  )
+
+p_rob_traffic
+
+ggsave(file.path(fig_dir, "rob_traffic_all.png"),
+       p_rob_traffic,
+       width  = max(14, length(domain_order_lab) * 0.75),
+       height = max(10, nlevels(rob_long$Study) * 0.28),
+       units = "in", dpi = 600, limitsize = FALSE)
+```
+
+## Traffic-light plots
+
+Traffic-light plots show risk-of-bias judgments by study and domain.\
+Green indicates low risk of bias, yellow indicates unclear risk, and red indicates high risk of bias.
+
+```{r rob-traffic-paged, fig.width=14, fig.height=8}
+block_size <- 10
+studies_all <- levels(rob_long$Study)
+
+chunks <- split(studies_all, ceiling(seq_along(studies_all) / block_size))
+
+paged_plots <- list()
+
+for (i in seq_along(chunks)) {
+  block <- chunks[[i]]
+
+  long_i <- rob_long |>
+    dplyr::filter(Study %in% block) |>
+    dplyr::mutate(Study = forcats::fct_drop(Study))
+
+  p_i <- ggplot(long_i, aes(x = Domain, y = Study, fill = Judgment)) +
+    geom_tile(color = "white", linewidth = 0.6) +
+    scale_fill_manual(
+  values = pal_rob,
+  limits = c("Low","Unclear","High"),
+  drop = FALSE
+) +
+    labs(x = NULL, y = NULL) +
+    theme_minimal(base_size = 12) +
+    theme(
+      axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+      panel.grid = element_blank(),
+      legend.position = "right"
+    )
+
+  paged_plots[[i]] <- p_i
+
+  fname <- sprintf("rob_traffic_page_%02d.png", i)
+  ggsave(file.path(fig_dir, fname),
+         p_i,
+         width  = max(14, length(domain_order_lab) * 0.75),
+         height = max(6, length(block) * 0.40),
+         units = "in", dpi = 600)
+}
+
+paged_plots <- rev(paged_plots)
+
+for (i in seq_along(paged_plots)) {
+  print(paged_plots[[i]])
+}
+```
+
+------------------------------------------------------------------------
+
+# Inter-rater reliability
+
+<!--Load inter-rater data-->
+
+```{r ir-load, include=FALSE}
+ir_file <- "inter_rater_kappa_raw_data.xlsx"
+stopifnot(file.exists(ir_file))
+
+ir <- readxl::read_excel(ir_file)
+
+stopifnot(all(c("rob_item","reviewer1_std","reviewer2_std") %in% names(ir)))
+
+ir <- ir |>
+  dplyr::mutate(
+    reviewer1_std = stringr::str_squish(as.character(reviewer1_std)),
+    reviewer2_std = stringr::str_squish(as.character(reviewer2_std))
+  )
+
+levels_ir <- c("Yes","Unclear","No")
+
+ir <- ir |>
+  dplyr::mutate(
+    reviewer1_std = factor(reviewer1_std, levels = levels_ir),
+    reviewer2_std = factor(reviewer2_std, levels = levels_ir)
+  )
+
+item_order <- unique(ir$rob_item)
+```
+
+## Overall agreement, Cohen’s kappa, and PABAK
+
+```{r ir-overall-metrics}
+r1 <- dplyr::recode(
+  as.character(ir$reviewer1_std),
+  "Yes" = "Low",
+  "Unclear" = "Unclear",
+  "No" = "High"
+)
+
+r2 <- dplyr::recode(
+  as.character(ir$reviewer2_std),
+  "Yes" = "Low",
+  "Unclear" = "Unclear",
+  "No" = "High"
+)
+
+cm <- table(r1, r2)
+
+n <- sum(cm)
+po <- sum(diag(cm)) / n
+
+# Expected agreement for Cohen's kappa
+row_m <- rowSums(cm) / n
+col_m <- colSums(cm) / n
+pe <- sum(row_m * col_m)
+
+kappa <- (po - pe) / (1 - pe)
+
+# PABAK
+pabak <- 2 * po - 1
+
+overall_metrics <- data.frame(
+  Metric = c("Observed agreement", "Cohen's kappa", "PABAK"),
+  Value  = c(po, kappa, pabak)
+)
+
+knitr::kable(
+  overall_metrics,
+  digits = 3,
+  caption = "Overall inter-rater reliability metrics."
+)
+```
+
+**Interpretation.** *Observed agreement* is the percentage of identical ratings. *Cohen’s kappa* corrects for agreement expected by chance. *PABAK* (prevalence-adjusted, bias-adjusted kappa) is a chance-corrected agreement metric.
+
+## Agreement / disagreement / critical disagreement
+
+```{r ir-disagreement}
+agree <- r1 == r2
+critical <- (r1 == "Low" & r2 == "High") | (r1 == "High" & r2 == "Low")
+disagree <- !agree
+
+summary_disagreement <- data.frame(
+  Category = c("Agreement", "Disagreement", "Critical disagreement (Low vs High)"),
+  Count = c(sum(agree, na.rm=TRUE), sum(disagree, na.rm=TRUE), sum(critical, na.rm=TRUE)),
+  Percent = c(mean(agree, na.rm=TRUE), mean(disagree, na.rm=TRUE), mean(critical, na.rm=TRUE))
+)
+
+knitr::kable(
+  summary_disagreement,
+  digits = 3,
+  caption = "Agreement, disagreement, and critical disagreement counts and proportions."
+)
+```
+
+**Interpretation.** *Critical disagreement* captures the most consequential mismatch (opposite ends: Low vs High).
+
+## Confusion matrix
+
+```{r ir-confusion-table}
+knitr::kable(
+  as.data.frame.matrix(cm),
+  caption = "Confusion matrix (Reviewer1 × Reviewer2)."
+)
+```
+
+```{r ir-heatmap, fig.cap="Confusion-matrix heatmap.", fig.width=9, fig.height=7}
+cm_df <- as.data.frame(cm) |>
+  dplyr::rename(Rater1 = r1, Rater2 = r2, Count = Freq)
+
+p_cm <- ggplot(cm_df, aes(x = Rater2, y = Rater1, fill = Count)) +
+  geom_tile(color = "white", linewidth = 1) +
+  geom_text(aes(label = Count), size = 5) +
+  scale_fill_gradient(
+    low = "#f7fbff",
+    high = "#6baed6"
+  ) +
+  labs(x = "Reviewer 2", y = "Reviewer 1") +
+  theme_minimal(base_size = 15) +
+  theme(panel.grid = element_blank())
+
+p_cm
+
+ggsave(
+  file.path(fig_dir, "interrater_confusion_heatmap.png"),
+  p_cm,
+  width = 9,
+  height = 7,
+  units = "in",
+  dpi = 600
+)
+```
+
+**Interpretation.** The heatmap shows where disagreements concentrate. Off-diagonal cells represent mismatches; the corners correspond to *critical disagreement*.
+
+## Agreement metrics by RoB item
+
+```{r ir-by-item}
+kappa_from_table <- function(tab) {
+  n <- sum(tab)
+  po <- sum(diag(tab)) / n
+  row_m <- rowSums(tab) / n
+  col_m <- colSums(tab) / n
+  pe <- sum(row_m * col_m)
+  kappa <- (po - pe) / (1 - pe)
+  pabak <- 2 * po - 1
+  c(Po = po, Kappa = kappa, PABAK = pabak, N = n)
+}
+
+by_item <- lapply(item_order, function(it) {
+  sub <- ir |> dplyr::filter(rob_item == it)
+  tab <- table(sub$reviewer1_std, sub$reviewer2_std)
+  m <- kappa_from_table(tab)
+  data.frame(
+    RoB_item = it,
+    N = m["N"],
+    Observed_agreement = m["Po"],
+    Cohens_kappa = m["Kappa"],
+    PABAK = m["PABAK"]
+  )
+}) |> dplyr::bind_rows()
+
+knitr::kable(
+  by_item,
+  digits = 3,
+  row.names = FALSE,
+  caption = "Inter-rater reliability by RoB item: observed agreement, Cohen’s kappa, and PABAK."
+)
+```
+
+**Interpretation.** Item-level metrics show which domains are consistently rated and which are harder to judge reliably. Items with lower kappa often reflect ambiguous reporting, subjective criteria, or unbalanced category prevalence.
+
+## Observed agreement vs Cohen’s kappa
+
+```{r ir-po-vs-kappa, fig.cap="Observed agreement vs Cohen’s kappa by RoB item. Points far to the right but low on the y-axis indicate high raw agreement driven by category imbalance (prevalence).", fig.width=11, fig.height=7}
+p_scatter <- ggplot(by_item, aes(x = Observed_agreement, y = Cohens_kappa)) +
+  geom_point(size = 3) +
+  ggrepel::geom_text_repel(aes(label = RoB_item), size = 3, max.overlaps = Inf) +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 1)) +
+  coord_cartesian(ylim = c(-0.2, 1)) +
+  labs(x = "Observed agreement", y = "Cohen's kappa") +
+  theme_minimal(base_size = 14)
+
+if (!requireNamespace("ggrepel", quietly = TRUE)) install.packages("ggrepel", dependencies = TRUE)
+library(ggrepel)
+
+p_scatter
+
+ggsave(file.path(fig_dir, "interrater_po_vs_kappa.png"),
+       p_scatter, width = 11, height = 7, units = "in", dpi = 600)
+```
+
+**Interpretation.** Observed agreement can be high even when kappa is moderate or low, especially when one category dominates (prevalence effect).
+
+```{r ir-by-study-group, include=FALSE}
+ir <- ir |>
+  dplyr::mutate(
+    study_group = substr(as.character(study_id), 1, 2)
+  )
+
+groups <- sort(unique(ir$study_group))
+
+by_group <- lapply(groups, function(g) {
+  sub <- ir |> dplyr::filter(study_group == g)
+  tab <- table(sub$reviewer1_std, sub$reviewer2_std)
+
+  n <- sum(tab)
+  po <- sum(diag(tab)) / n
+  pe <- sum(rowSums(tab)/n * colSums(tab)/n)
+  kappa <- (po - pe) / (1 - pe)
+  pabak <- 2 * po - 1
+
+  data.frame(
+    Group = g,
+    N = n,
+    Observed_agreement = po,
+    Cohens_kappa = kappa,
+    PABAK = pabak
+  )
+}) |> dplyr::bind_rows()
+
+ writexl::write_xlsx(
+  by_group,
+path = file.path(fig_dir, "interrater_by_study_group.xlsx")
+)
+```
+
+## Inter-rater agreement by risk-of-bias domain
+
+```{r ir-agreement-heatmap, fig.cap="Inter-rater agreement by RoB item. Cell color represents the proportion of agreement across studies.", fig.width=10, fig.height=3}
+item_numbers <- gsub("^(\\d+).*", "\\1", item_order)
+
+item_labels_numeric <- setNames(item_numbers, item_order)
+
+agree_item <- ir |>
+  dplyr::mutate(agree = as.integer(reviewer1_std == reviewer2_std)) |>
+  dplyr::group_by(rob_item) |>
+  dplyr::summarise(
+    agreement = mean(agree, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    rob_item = factor(rob_item, levels = item_order)
+  )
+
+p_agree_item <- ggplot(
+  agree_item,
+  aes(x = rob_item, y = "Agreement", fill = agreement)
+) +
+  geom_tile(color = "white") +
+  geom_text(
+    aes(label = scales::percent(agreement, 1)),
+    size = 4
+  ) +
+  scale_x_discrete(labels = item_labels_numeric) +
+  scale_fill_gradient(
+    low = "#fee5d9",
+    high = "#a50f15",
+    labels = scales::percent
+  ) +
+  labs(
+    title = "Inter-rater agreement by risk-of-bias domain",
+    x = "RoB domain",
+    y = NULL,
+    fill = "Agreement"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_blank(),
+    panel.grid = element_blank(),
+    plot.margin = margin(15, 20, 15, 20)
+  )
+
+p_agree_item
+```
+
+**RoB domain key.**\
+1 = Sequence generation;\
+2 = Baseline characteristics;\
+4 = Random housing;\
+5 = Blinding – experiment;\
+6 = Random outcome assessment;\
+7 = Blinding – outcome assessment;\
+8 = Incomplete outcome data;\
+9 = Selective outcome reporting;\
+10.1 = Other – pseudoreplication;\
+10.2 = Other – procedural equivalence.
+
+## Session information
+
+```{r session-info}
+
+sessionInfo()
+
+```

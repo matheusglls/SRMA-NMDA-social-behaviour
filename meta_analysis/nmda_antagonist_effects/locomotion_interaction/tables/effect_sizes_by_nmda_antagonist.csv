@@ -1,0 +1,171 @@
+"study","effect_id","nmda_antagonist","hedges_g","ci_lb","ci_ub"
+"Gururajan 2011",35,"MK-801",2.019,0.992,3.046
+"Gururajan 2011",39,"MK-801",2.04,0.959,3.121
+"Gururajan 2011",43,"MK-801",1.94,0.877,3.003
+"Gururajan 2011",36,"MK-801",0.462,-0.385,1.308
+"Gururajan 2011",40,"MK-801",0.467,-0.421,1.355
+"Gururajan 2011",44,"MK-801",0.468,-0.421,1.356
+"Li 2018",53,"MK-801",1.33,0.377,2.284
+"Podhorna 2003",109,"Phencyclidine",1.935,0.956,2.914
+"Podhorna 2003",110,"Phencyclidine",3.72,2.391,5.05
+"Podhorna 2003",111,"Phencyclidine",4.408,2.92,5.896
+"Salunke 2013",119,"MK-801",-0.419,-2.036,1.199
+"Salunke 2013",125,"MK-801",0.181,-1.422,1.785
+"Salunke 2013",120,"MK-801",-0.246,-1.853,1.36
+"Salunke 2013",121,"MK-801",0.278,-1.33,1.886
+"Sams-Dodd 1997",128,"Phencyclidine",3.133,1.939,4.327
+"Sams-Dodd 1997",130,"Phencyclidine",1.792,0.845,2.739
+"Sams-Dodd 1997",132,"Phencyclidine",0.739,-0.088,1.566
+"Sams-Dodd 1997",134,"Phencyclidine",2.14,1.136,3.143
+"Sams-Dodd 1997",136,"Phencyclidine",1.794,0.847,2.742
+"Sams-Dodd 1997",138,"Phencyclidine",2.203,1.189,3.218
+"Sams-Dodd 1997",140,"Phencyclidine",2.044,1.057,3.032
+"Sams-Dodd 1997",142,"Phencyclidine",1.134,0.272,1.996
+"Sams-Dodd 1997",144,"Phencyclidine",1.316,0.434,2.199
+"Sams-Dodd 1997",146,"Phencyclidine",1.782,0.836,2.727
+"Sams-Dodd 1998",148,"Phencyclidine",5.102,3.452,6.752
+"Sams-Dodd 1998",150,"Phencyclidine",2.64,1.545,3.734
+"Sams-Dodd 1998",152,"Phencyclidine",2.74,1.626,3.855
+"Sams-Dodd 1998",154,"Phencyclidine",1.878,0.917,2.838
+"Sams-Dodd 1998 b",159,"Phencyclidine",2.93,1.6,4.26
+"Sams-Dodd 1998 b",160,"Phencyclidine",4.287,2.609,5.965
+"Sams-Dodd 1998 b",161,"Phencyclidine",7.032,4.556,9.507
+"Sams-Dodd 1998 b",162,"Phencyclidine",1.67,0.597,2.743
+"Sams-Dodd 1998 c",164,"Phencyclidine",1.097,0.239,1.956
+"Sams-Dodd 1998 c",166,"Phencyclidine",1.607,0.687,2.527
+"Sams-Dodd 1998 c",168,"Phencyclidine",1.974,0.998,2.95
+"Sams-Dodd 1998 c",170,"Phencyclidine",1.265,0.388,2.141
+"Savolainen 2018",171,"Phencyclidine",-0.062,-0.803,0.679
+"Savolainen 2018",172,"Phencyclidine",-0.159,-0.901,0.583
+"Tanaka 2019",200,"MK-801",0.731,-0.034,1.496
+"Tarland 2018",205,"Phencyclidine",-0.388,-1.445,0.67
+"Zoupa 2019",215,"Ketamine",-1.602,-2.729,-0.476
+"Gururajan 2010",248,"MK-801",0.122,-0.572,0.816
+"Gururajan 2010",252,"MK-801",-0.121,-0.837,0.595
+"Gururajan 2010",258,"MK-801",-0.116,-0.833,0.6
+"Gururajan 2010",262,"MK-801",1.829,1.004,2.654
+"Gururajan 2010",249,"MK-801",-0.338,-1.036,0.359
+"Gururajan 2010",255,"MK-801",0.035,-0.68,0.751
+"Gururajan 2010",259,"MK-801",0.028,-0.688,0.744
+"Gururajan 2010",263,"MK-801",1.05,0.311,1.789
+"Koros 2007",284,"MK-801",0.948,-0.246,2.141
+"Koros 2007",285,"MK-801",2.311,0.85,3.772
+"Koros 2007",286,"MK-801",1.763,0.429,3.096
+"Koros 2007",287,"MK-801",3.314,1.571,5.057
+"Koros 2007",276,"Phencyclidine",1.9,0.787,3.014
+"Koros 2007",277,"Phencyclidine",1.051,0.065,2.037
+"Koros 2007",292,"Ketamine",0.576,-0.579,1.731
+"Koros 2007",278,"Phencyclidine",0.353,-0.578,1.284
+"Koros 2007",293,"Ketamine",-1.06,-2.269,0.148
+"Koros 2007",279,"Phencyclidine",1.09,0.1,2.08
+"Koros 2007",294,"Ketamine",-1.98,-3.361,-0.599
+"Koros 2007",295,"Ketamine",-4.001,-5.961,-2.04
+"Kovanyi 2016",300,"Phencyclidine",1.397,0.42,2.375
+"Kovanyi 2016",301,"Phencyclidine",-1.23,-2.185,-0.274
+"Pouzet 2002",323,"Phencyclidine",1.941,0.568,3.313
+"Pouzet 2002 b",325,"Phencyclidine",2.279,0.826,3.733
+"Pouzet 2002 b",327,"Phencyclidine",0.549,-0.603,1.702
+"Savage 2011",348,"Phencyclidine",-3.577,-5.028,-2.126
+"Kaminska 2015",423,"MK-801",0.318,-0.821,1.457
+"Kaminska 2015",426,"MK-801",-0.651,-1.812,0.51
+"Maehara 2011",432,"MK-801",-0.999,-2.009,0.011
+"Maehara 2011",434,"MK-801",-0.204,-1.13,0.722
+"Sukhotina 1998",475,"MK-801",-0.312,-1.194,0.57
+"Sukhotina 1998",476,"MK-801",-0.178,-1.056,0.7
+"Sukhotina 1998",477,"MK-801",0.531,-0.361,1.423
+"Trevlopoulou 2015",482,"Ketamine",-1.765,-2.92,-0.61
+"Zou 2008",520,"MK-801",-0.403,-1.211,0.405
+"Dunn 1989",569,"MK-801",0.132,-1,1.265
+"Dunn 1989",570,"MK-801",0.653,-0.508,1.815
+"Gacsalyi 2013",573,"Phencyclidine",1.246,-0.269,2.76
+"Haller 2005",579,"Phencyclidine",-1.075,-2.401,0.251
+"Haller 2005",580,"Phencyclidine",0.753,-0.53,2.036
+"Lafioniatis 2016",593,"Ketamine",-1.602,-2.902,-0.301
+"Maaswinkel 2013",607,"MK-801",0.742,0.101,1.382
+"Maaswinkel 2013",608,"MK-801",1.011,0.352,1.669
+"Maaswinkel 2013",609,"MK-801",2.8,1.916,3.683
+"Matsuoka 2008",611,"MK-801",2.298,1.569,3.027
+"Neill 2016",620,"Phencyclidine",-0.161,-1.142,0.821
+"Peters 2017",624,"Phencyclidine",-0.391,-1.415,0.633
+"Sams-Dodd 1996",629,"Phencyclidine",-1.231,-2.103,-0.358
+"Sams-Dodd 1996",635,"MK-801",0.527,-0.287,1.341
+"Sams-Dodd 1996",636,"MK-801",-0.452,-1.263,0.358
+"Sams-Dodd 1996",637,"MK-801",1.275,0.398,2.153
+"Sams-Dodd 1996",638,"MK-801",3.868,2.512,5.223
+"Sams-Dodd 1996",639,"MK-801",4.03,2.637,5.423
+"Sams-Dodd 1996",641,"Phencyclidine",1.739,0.8,2.678
+"Sams-Dodd 1996",645,"Phencyclidine",0.914,0.073,1.755
+"Sams-Dodd 1996",643,"Phencyclidine",1.834,0.88,2.788
+"Sams-Dodd 1996",647,"Phencyclidine",1.916,0.949,2.882
+"Sams-Dodd 1998 d",648,"Phencyclidine",1.837,0.883,2.791
+"Sams-Dodd 1998 d",650,"Phencyclidine",1.517,0.609,2.425
+"Sams-Dodd 1998 d",652,"Phencyclidine",1.824,0.478,3.171
+"Sams-Dodd 1998 d",654,"Phencyclidine",1.925,0.957,2.893
+"Sams-Dodd 1998 d",656,"Phencyclidine",1.123,0.262,1.984
+"Sams-Dodd 1998 d",658,"Phencyclidine",1.676,0.746,2.606
+"Sams-Dodd 1998 d",660,"Phencyclidine",1.119,0.259,1.98
+"Sams-Dodd 1998 d",662,"Phencyclidine",1.182,-0.045,2.408
+"Vijeepallam 2016",690,"Ketamine",1.271,0.196,2.345
+"Becker 2004",712,"Ketamine",0.761,-0.254,1.776
+"Becker 2004",715,"Ketamine",0.785,-0.174,1.743
+"Becker 2004",718,"Ketamine",0.679,-0.277,1.634
+"Becker 2004",721,"Ketamine",1.041,0.051,2.031
+"Becker 2004",724,"Ketamine",1.172,0.167,2.177
+"Becker 2004",727,"Ketamine",0.33,-0.628,1.289
+"Becker 2004",700,"Ketamine",0.432,-0.414,1.277
+"Becker 2004",703,"Ketamine",0.526,-0.414,1.466
+"Becker 2004",706,"Ketamine",-0.348,-1.211,0.515
+"Becker 2004",709,"Ketamine",0.546,-0.395,1.487
+"Corbett 1993",741,"MK-801",-0.948,-2.142,0.245
+"Corbett 1993",742,"MK-801",-0.631,-1.791,0.528
+"Georgiadou 2013",749,"Ketamine",-3.43,-4.97,-1.889
+"Rung 2005",819,"MK-801",-0.598,-1.755,0.558
+"Rung 2005",820,"MK-801",-0.517,-1.668,0.633
+"Rung 2005",821,"MK-801",1.103,-0.112,2.317
+"Rung 2005",822,"MK-801",0.958,-0.237,2.153
+"Satow 2009",824,"MK-801",-1.506,-2.788,-0.224
+"Satow 2009",826,"MK-801",-0.391,-1.113,0.332
+"Satow 2009",828,"MK-801",-0.713,-1.88,0.454
+"Tarland 2017",835,"Phencyclidine",-0.344,-1.399,0.712
+"Corbett 1995",879,"Phencyclidine",-0.49,-1.638,0.659
+"Corbett 1995",880,"Phencyclidine",0.845,-0.336,2.026
+"Corbett 1995",883,"Phencyclidine",1.095,-0.119,2.308
+"Corbett 1995",885,"Phencyclidine",0.743,-0.427,1.913
+"Corbett 1995",887,"Phencyclidine",1.343,0.09,2.595
+"Corbett 1995",889,"Phencyclidine",0.102,-1.03,1.235
+"Corbett 1995",891,"Phencyclidine",-0.105,-1.237,1.028
+"Corbett 1995",893,"Phencyclidine",1.381,0.122,2.64
+"Corbett 1995",895,"Phencyclidine",0.487,-0.661,1.636
+"Corbett 1995",881,"Phencyclidine",2.092,0.684,3.499
+"Hereta 2019",970,"MK-801",-0.372,-1.514,0.769
+"Hereta 2019",973,"MK-801",-0.512,-1.662,0.638
+"Hereta 2019",976,"MK-801",-0.184,-1.318,0.95
+"Hereta 2019",979,"MK-801",-0.393,-1.535,0.75
+"Hereta 2019",981,"MK-801",-0.96,-2.155,0.235
+"Matsuoka 2005",1007,"MK-801",2.291,1.563,3.019
+"Morimoto 2002",1012,"MK-801",-0.87,-2.167,0.427
+"Morimoto 2002",1014,"MK-801",0.753,-0.53,2.035
+"Morimoto 2002",1017,"MK-801",-0.029,-1.269,1.21
+"Morimoto 2002",1019,"MK-801",1.172,-0.17,2.513
+"Rung 2005 b",1058,"MK-801",1.076,0.087,2.064
+"Rung 2005 b",1060,"MK-801",0.73,-0.438,1.899
+"Rung 2005 b",1062,"MK-801",0.6,-0.668,1.867
+"Rung 2005 b",1064,"MK-801",0.478,-0.301,1.258
+"Sams-Dodd 1995",1083,"Phencyclidine",-0.038,-0.962,0.886
+"Sams-Dodd 1995",1084,"Phencyclidine",-0.335,-1.266,0.595
+"Sams-Dodd 1995",1085,"Phencyclidine",0.08,-0.844,1.005
+"Sams-Dodd 1995",1086,"Phencyclidine",0.55,-0.391,1.492
+"Sams-Dodd 1995",1087,"Phencyclidine",1.594,0.533,2.655
+"Sams-Dodd 1995",1088,"Phencyclidine",2.439,1.219,3.659
+"Sams-Dodd 1995",1089,"Phencyclidine",3.206,1.81,4.603
+"Sams-Dodd 1995",1090,"Phencyclidine",3.876,2.308,5.443
+"Sams-Dodd 1995",1091,"Phencyclidine",0.361,-0.571,1.292
+"Sams-Dodd 2004",1098,"MK-801",2.82,1.222,4.418
+"Sams-Dodd 2004",1096,"MK-801",-0.223,-1.358,0.912
+"Sams-Dodd 2004",1099,"MK-801",-0.641,-1.801,0.52
+"Sams-Dodd 2004",1097,"MK-801",1.118,-0.099,2.335
+"Silvestre 1997",1102,"Ketamine",-0.101,-1.341,1.14
+"Tanaka 2003",1107,"MK-801",4.709,3.155,6.263
+"Tanaka 2003",1106,"Phencyclidine",2.596,1.51,3.682
+"Wass 2009",1122,"Phencyclidine",0.024,-1.215,1.264
+"Yeap 2020",1132,"MK-801",1.198,0.425,1.972

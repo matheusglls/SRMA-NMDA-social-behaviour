@@ -1,0 +1,1032 @@
+---
+title: "Effects of NMDA Receptor antagonists on social preference"
+author: "Matheus Gallas-Lopes"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+    toc: true
+    toc_depth: 3
+    number_sections: false
+---
+
+```{r setup, message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 600,
+  fig.retina = 2,
+  fig.width = 9,
+  fig.height = 6,
+  out.width = "100%"
+)
+
+# Packages
+library(readxl)
+library(dplyr)
+library(metafor)
+library(clubSandwich)
+library(orchaRd)
+library(ggplot2)
+library(tidyr)
+library(ggalluvial)
+library(forcats)
+library(stringr)
+library(scales)
+library(RColorBrewer)
+
+set.seed(1)
+
+# ---- User inputs ----
+data_path  <- "meta_social_pref_nmda_sb.xlsx"
+sheet_name <- 1
+
+# Outputs
+dir.create("figures", showWarnings = FALSE)
+dir.create("tables",  showWarnings = FALSE)
+
+# Main settings
+rho_main   <- 0.5
+rho_values <- c(0, 0.3, 0.5, 0.8)
+
+# Colors
+main_color <- "#9B7F87"
+pastel_fill <- function(n) {
+  scales::alpha(
+    colorRampPalette(c("#9B7F87", "#F0E7EA"))(n),
+    0.9
+  )
+}
+
+save_both <- function(plot, filename_base, w = 8, h = 6, dpi = 600) {
+  ggsave(paste0("figures/", filename_base, ".png"), plot = plot, width = w, height = h, dpi = dpi)
+  ggsave(paste0("figures/", filename_base, ".pdf"), plot = plot, width = w, height = h, device = cairo_pdf)
+}
+
+# Build V with rho at exp_id level
+make_V <- function(dat, rho) {
+  vcalc(vi, cluster = exp_id, obs = effect_id, data = dat, rho = rho)
+}
+
+# Fit multilevel model + robust SEs clustered by study_id
+fit_mv <- function(dat, V, mods = NULL) {
+
+  if (is.null(mods)) {
+    m_raw <- rma.mv(
+      yi, V,
+      random = ~ 1 | study_id/exp_id,
+      method = "REML",
+      test   = "t",
+      dfs    = "contain",
+      data   = dat
+    )
+  } else {
+    m_raw <- rma.mv(
+      yi, V,
+      mods   = mods,
+      random = ~ 1 | study_id/exp_id,
+      method = "REML",
+      test   = "t",
+      dfs    = "contain",
+      data   = dat
+    )
+  }
+
+  m_rob <- robust(m_raw, cluster = dat$study_id, clubSandwich = TRUE, digits = 3)
+  list(raw = m_raw, rob = m_rob)
+}
+
+# Tidy coef table
+coef_table <- function(m_rob, model_name = "model") {
+  b  <- coef(m_rob)
+  vc <- vcov(m_rob)
+  se <- sqrt(diag(vc))
+  ci <- cbind(b - 1.96*se, b + 1.96*se)
+  data.frame(
+    model = model_name,
+    term  = names(b),
+    estimate = as.numeric(b),
+    se = as.numeric(se),
+    ci_lb = as.numeric(ci[,1]),
+    ci_ub = as.numeric(ci[,2]),
+    row.names = NULL
+  )
+}
+
+# Orchard plots
+orchard_overall_plot <- function(
+  m_rob,
+  title = "Overall effect",
+  xlab = "Hedges g"
+) {
+
+  I2 <- round(orchaRd::i2_ml(m_rob)[1], 1)
+
+  orchard_plot(
+    m_rob,
+    group = "study_id",
+    k = TRUE,
+    g = TRUE,
+    xlab = xlab,
+    transfm = "none"
+  ) +
+    scale_fill_manual(values = main_color) +
+    scale_colour_manual(values = main_color) +
+    labs(
+      title = title,
+      caption = paste0("Heterogeneity: I\u00B2 = ", I2, "%")
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      axis.text.y  = element_blank(),
+      axis.ticks.y = element_blank(),
+      panel.border = element_rect(
+        color = "black",
+        fill = NA,
+        linewidth = 0.8
+      ),
+      plot.caption = element_text(
+        hjust = 1,
+        size = 9,
+        margin = margin(t = 6)
+      ),
+
+      plot.title.position = "panel",
+      plot.title = element_text(hjust = 0.5)
+    )
+}
+
+orchard_mod_plot <- function(m_rob, mod, title, xlab = "Hedges g") {
+
+  I2 <- round(orchaRd::i2_ml(m_rob)[1], 1)
+
+  levs <- levels(as.factor(m_rob$data[[mod]]))
+  cols <- setNames(pastel_fill(length(levs)), levs)
+
+  orchard_plot(
+    m_rob,
+    mod = mod,
+    group = "study_id",
+    k = TRUE,
+    g = TRUE,
+    xlab = xlab,
+    transfm = "none"
+  ) +
+    scale_fill_manual(values = cols, name = mod) +          
+    scale_colour_manual(values = cols, name = mod) +        
+    labs(
+      title = title,
+      caption = paste0("Heterogeneity: I\u00B2 = ", I2, "%")
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      panel.border = element_rect(
+        color = "black",
+        fill = NA,
+        linewidth = 0.8
+      ),
+      plot.caption = element_text(
+        hjust = 1,
+        size = 9,
+        margin = margin(t = 6)
+      ),
+      plot.title.position = "panel",
+      plot.title = element_text(hjust = 0.5)
+    )
+}
+
+# Evidence-map bubble grid: bubble size = k, bubble color = mean Hedges g
+bubble_grid <- function(dat, xvar, yvar, title) {
+
+  df <- dat %>%
+    filter(!is.na(.data[[xvar]]), !is.na(.data[[yvar]])) %>%
+    group_by(.data[[xvar]], .data[[yvar]]) %>%
+    summarise(
+      k = n(),
+      mean_g = mean(yi, na.rm = TRUE),
+      .groups = "drop"
+    ) %>%
+    rename(x = !!xvar, y = !!yvar)
+
+  ggplot(df, aes(x = x, y = y)) +
+    geom_point(
+      aes(size = k, fill = mean_g),
+      shape = 21,
+      color = "grey30",
+      alpha = 0.95
+    ) +
+    geom_text(
+      aes(label = k),
+      size = 3,
+      color = "black"
+    ) +
+    scale_size_continuous(
+      name = "Number of Effect Sizes",
+      range = c(6, 18)
+    ) +
+    scale_fill_gradient2(
+      name = "Mean Hedges g",
+      low = muted("#9B7F87"),
+      mid = "white",
+      high = muted("#F0E7EA"),
+      midpoint = 0
+    ) +
+    labs(title = title, x = xvar, y = yvar) +
+    theme_minimal(base_size = 12) +
+    theme(
+      axis.text.x = element_text(angle = 35, hjust = 1),
+      panel.grid.minor = element_blank()
+    )
+}
+```
+
+```{r data, message=FALSE, warning=FALSE, include=FALSE}
+dat_raw <- readxl::read_excel(data_path, sheet = sheet_name)
+
+# Basic cleaning + factor setup
+dat <- dat_raw %>%
+  mutate(
+    study_id = as.factor(study_id),
+    exp_id   = as.factor(exp_id),
+
+    species  = as.factor(species),
+    strain   = as.factor(strain),
+    sex      = as.factor(sex),
+
+    developmental_stage_induction = as.factor(developmental_stage_induction),
+    nmda_antagonist               = as.factor(nmda_antagonist),
+    nmda_administration_route     = as.factor(nmda_administration_route),
+    nmda_schedule                 = as.factor(nmda_schedule),
+
+    effect_direction = as.character(effect_direction)
+  )
+
+# Hedges g (SMD with small-sample correction)
+dat_es <- escalc(
+  measure = "SMD",
+  m1i = mean_exp, sd1i = sd_exp, n1i = n_exp,
+  m2i = mean_ctrl, sd2i = sd_ctrl, n2i = n_ctrl,
+  data = dat
+) %>%
+  mutate(
+    yi = ifelse(effect_direction == "Inverse", -yi, yi)
+  )
+
+# Replication summary
+summary_counts <- dat_es %>%
+  summarise(
+    k_effects = n(),
+    n_studies = n_distinct(study_id),
+    n_experiments = n_distinct(exp_id)
+  )
+summary_counts
+write.csv(summary_counts, "tables/data_summary_counts.csv", row.names = FALSE)
+```
+
+# Analysis overview
+
+This systematic review and meta-analysis evaluated the effects of NMDA receptor antagonists on social preference outcomes in animal models. Effect sizes were calculated as Hedges’ g and synthesized using multilevel random-effects models to account for dependency between multiple outcomes within experiments and studies.
+
+# Study landscape and evidence distribution
+
+## Alluvial plot
+
+```{r alluvial, message=FALSE, warning=FALSE}
+alluv_dat <- dat_es %>%
+  count(species, nmda_antagonist, name = "Freq") %>%
+  mutate(
+    species = factor(species),
+    nmda_antagonist = factor(nmda_antagonist)
+  )
+
+species_levels <- levels(alluv_dat$species)
+species_cols <- setNames(pastel_fill(length(species_levels)), species_levels)
+
+p_alluvial <- ggplot(alluv_dat, aes(axis1 = species, axis2 = nmda_antagonist, y = Freq)) +
+  geom_alluvium(aes(fill = species), width = 1/12, alpha = 0.85) +
+  geom_stratum(width = 1/7.5, fill = "grey90", color = "grey50") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3) +
+  scale_x_discrete(limits = c("Species", "NMDA antagonist"), expand = c(.1, .1)) +
+  scale_fill_manual(values = species_cols) +
+  labs(title = "", y = "Number of effect sizes") +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid = element_blank(),
+    legend.position = "none",
+    axis.text.y  = element_blank(),
+axis.ticks.y = element_blank(),
+  axis.title.y = element_text(margin = margin(r = -50)),
+plot.title.position = "panel",
+plot.title = element_text(hjust = 0.5, margin = margin(b = 6))
+)
+
+p_alluvial
+save_both(p_alluvial, "alluvial_species_antagonist", w = 9, h = 6)
+```
+
+**Distribution of species across NMDA receptor antagonists.**\
+Alluvial plot showing how effect sizes are distributed across animal species and NMDA receptor antagonists.
+
+## Evidence maps
+
+**Evidence maps of experimental design characteristics.**\
+Bubble size represents the number of effect sizes (k), and color indicates the mean Hedges’ g within each cell.
+
+```{r evidence_map_A, message=FALSE, warning=FALSE}
+pA <- bubble_grid(
+  dat_es,
+  "nmda_antagonist",
+  "nmda_administration_route",
+  "Evidence map: nmda_antagonist × nmda_administration_route"
+)
+print(pA)
+save_both(pA, "bubble_antagonist_route", w = 9, h = 6)
+```
+```{r evidence_map_B, message=FALSE, warning=FALSE}
+pB <- bubble_grid(
+  dat_es,
+  "nmda_antagonist",
+  "nmda_schedule",
+  "Evidence map: nmda_antagonist × nmda_schedule"
+)
+print(pB)
+save_both(pB, "bubble_antagonist_schedule", w = 9, h = 6)
+```
+```{r evidence_map_C, message=FALSE, warning=FALSE}
+pC <- bubble_grid(
+  dat_es,
+  "species",
+  "developmental_stage_induction",
+  "Evidence map: species × developmental_stage_induction"
+)
+print(pC)
+save_both(pC, "bubble_species_devstage", w = 9, h = 6)
+```
+```{r evidence_map_D, message=FALSE, warning=FALSE}
+pD <- bubble_grid(
+  dat_es,
+  "species",
+  "nmda_administration_route",
+  "Evidence map: species × nmda_administration_route"
+)
+print(pD)
+save_both(pD, "bubble_species_route", w = 9, h = 6)
+```
+```{r evidence_map_sex, message=FALSE, warning=FALSE}
+pSex <- bubble_grid(
+  dat_es,
+  "species",
+  "sex",
+  "Evidence map: species × sex"
+)
+print(pSex)
+save_both(pSex, "bubble_species_sex", w = 9, h = 6)
+```
+
+# Main meta-analysis
+
+## Overall effect
+
+```{r main_meta, message=FALSE, warning=FALSE}
+V_main <- make_V(dat_es, rho = rho_main)
+m_overall <- fit_mv(dat_es, V_main)
+
+print(m_overall$rob)
+
+I2_overall <- orchaRd::i2_ml(m_overall$rob)
+write.csv(data.frame(I2_total = I2_overall[1]), "tables/I2_overall.csv", row.names = FALSE)
+```
+
+**Multilevel random-effects meta-analysis with robust variance estimation.**
+
+## Orchard plot
+
+```{r orchard_overall, message=FALSE, warning=FALSE}
+p_orch <- orchard_overall_plot(m_overall$rob, title = "Overall effect")
+p_orch
+save_both(p_orch, "orchard_overall", w = 9, h = 6)
+```
+
+**Overall effect of NMDA receptor antagonists on social preference.**\
+Orchard plot summarizing study-level pooled effects with multilevel heterogeneity.
+
+## Prediction interval for the overall effect
+
+```{r overall_prediction_interval}
+pi_overall <- predict(
+  m_overall$rob,
+  pi = TRUE,
+  digits = 3
+)
+
+pi_tbl <- data.frame(
+  estimate = pi_overall$pred,
+  ci_lb    = pi_overall$ci.lb,
+  ci_ub    = pi_overall$ci.ub,
+  pi_lb    = pi_overall$pi.lb,
+  pi_ub    = pi_overall$pi.ub
+)
+
+pi_tbl
+
+write.csv(
+  pi_tbl,
+  "tables/overall_prediction_interval.csv",
+  row.names = FALSE
+)
+```
+
+**Prediction interval for the overall effect.**
+The 95% prediction interval reflects expected variability in the true effect size of a future study beyond sampling error.
+
+```{r overall_i2_table}
+I2_vals <- orchaRd::i2_ml(m_overall$rob)
+
+i2_tbl <- data.frame(
+  Component = names(I2_vals),
+  `I² (%)` = round(as.numeric(I2_vals), 1)
+)
+
+i2_tbl
+```
+
+**Multilevel heterogeneity estimates (I²).**
+
+# Publication bias
+
+## Funnel plots
+
+```{r funnel_se_save, include=FALSE}
+png("figures/funnel_overall_se.png", width = 2400, height = 2000, res = 300)
+funnel(
+  m_overall$raw,
+  xlab = "Hedges g",
+  ylab = "Standard Error",
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+dev.off()
+
+pdf("figures/funnel_overall_se.pdf", width = 8, height = 7, useDingbats = FALSE)
+funnel(
+  m_overall$raw,
+  xlab = "Hedges g",
+  ylab = "Standard Error",
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+dev.off()
+```
+
+```{r funnel_se}
+funnel(
+  m_overall$raw,
+  xlab = "Hedges g",
+  ylab = "Standard Error",
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+```
+
+**Funnel plot using standard error.**
+
+```{r funnel_prep}
+dat_es <- dat_es %>%
+  mutate(
+    n_total = n_exp + n_ctrl,
+    inv_sqrt_n = 1 / sqrt(n_total)
+  )
+```
+
+```{r funnel_inv_sqrtn}
+plot(
+  x = dat_es$yi,
+  y = dat_es$inv_sqrt_n,
+  xlab = "Hedges g",
+  ylab = expression(1 / sqrt(n)),
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+
+abline(
+  v   = coef(m_overall$raw)[1],
+  lwd = 2,
+  col = "black"
+)
+```
+
+```{r funnel_inv_sqrtn_save, include=FALSE}
+png("figures/funnel_overall_inv_sqrtn.png", width = 2400, height = 2000, res = 300)
+plot(
+  x = dat_es$yi,
+  y = dat_es$inv_sqrt_n,
+  xlab = "Hedges g",
+  ylab = expression(1 / sqrt(n)),
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+abline(v = coef(m_overall$raw)[1], lwd = 2, col = "black")
+dev.off()
+
+pdf("figures/funnel_overall_inv_sqrtn.pdf", width = 8, height = 7, useDingbats = FALSE)
+plot(
+  x = dat_es$yi,
+  y = dat_es$inv_sqrt_n,
+  xlab = "Hedges g",
+  ylab = expression(1 / sqrt(n)),
+  pch  = 21,
+  bg   = "grey70",
+  col  = "grey30"
+)
+abline(v = coef(m_overall$raw)[1], lwd = 2, col = "black")
+dev.off()
+```
+
+**Funnel plot using inverse square root of total sample size.**
+
+## Precision Effect Test (PET)
+
+```{r pet}
+m_pet <- fit_mv(dat_es, V_main, mods = ~ sqrt(vi))
+
+print(m_pet$rob)
+
+pet_tbl <- coef_table(m_pet$rob, "PET")
+write.csv(
+  pet_tbl,
+  "tables/pet_coefficients.csv",
+  row.names = FALSE
+)
+```
+
+**PET (Precision Effect Test) model with robust variance estimation.** The PET model evaluates small-study bias by regressing effect size on study precision.
+
+## Precision Effect Estimate with Standard Error (PEESE)
+
+```{r peese}
+m_peese <- fit_mv(dat_es, V_main, mods = ~ vi)
+
+print(m_peese$rob)
+
+peese_tbl <- coef_table(m_peese$rob, "PEESE")
+write.csv(
+  peese_tbl,
+  "tables/peese_coefficients.csv",
+  row.names = FALSE
+)
+```
+
+**PEESE (Precision Effect Estimate with Standard Error) model with robust variance estimation.** The PEESE model provides an alternative bias-adjusted estimate using study variance.
+
+## Time-lag bias
+
+```{r timelag_model, message=FALSE, warning=FALSE}
+dat_year <- dat_es %>% filter(!is.na(year_publication))
+dat_year <- dat_year %>%
+  mutate(year_c = as.numeric(year_publication) -
+           mean(as.numeric(year_publication), na.rm = TRUE))
+
+V_year <- make_V(dat_year, rho = rho_main)
+m_year <- fit_mv(dat_year, V_year, mods = ~ year_c)
+
+print(m_year$rob)
+
+write.csv(
+  coef_table(m_year$rob, "Time-lag (year_c)"),
+  "tables/timelag_coefficients.csv",
+  row.names = FALSE
+)
+```
+
+**Time-lag meta-regression model.** This model tests whether effect sizes change systematically over publication time. A significant slope would indicate temporal trends such as decline or inflation of reported effects.
+
+```{r timelag_figure, message=FALSE, warning=FALSE}
+pred_df <- data.frame(
+  year_c = seq(min(dat_year$year_c),
+               max(dat_year$year_c),
+               length.out = 60)
+)
+
+pred <- predict(m_year$raw, newmods = pred_df$year_c)
+
+p_time <- ggplot(dat_year, aes(x = year_publication, y = yi)) +
+  geom_point(alpha = 0.25) +
+  geom_line(
+    data = data.frame(
+      year_publication = pred_df$year_c +
+        mean(as.numeric(dat_year$year_publication), na.rm = TRUE),
+      pred = pred$pred
+    ),
+    aes(x = year_publication, y = pred),
+    linewidth = 1,
+    color = "black"
+  ) +
+  labs(
+    title = "Time-lag bias: effect size versus publication year",
+    x = "Publication year",
+    y = "Hedges g"
+  ) +
+  theme_minimal(base_size = 12)
+
+p_time
+save_both(p_time, "timelag_year", w = 9, h = 6)
+```
+
+**Time-lag bias: effect size as a function of publication year.**
+
+# Moderators
+
+Moderator analyses were conducted using multilevel meta-analytic models with robust variance estimation to examine whether effect sizes differed across experimental and biological characteristics. Orchard plots display pooled effects for each moderator level, with study-level clustering and multilevel heterogeneity taken into account.
+
+```{r moderator_nmda_antagonist, message=FALSE, warning=FALSE}
+mods_formula <- ~ 0 + nmda_antagonist
+m_ant <- fit_mv(dat_es, V_main, mods = mods_formula)
+
+print(m_ant$rob)
+
+tbl_ant <- coef_table(m_ant$rob, "Moderator: NMDA antagonist")
+write.csv(
+  tbl_ant,
+  "tables/mod_nmda_antagonist_coefficients.csv",
+  row.names = FALSE
+)
+
+p_ant <- orchard_mod_plot(
+  m_ant$rob,
+  mod = "nmda_antagonist",
+  title = "By NMDA antagonist"
+)
+
+print(p_ant)
+
+save_both(
+  p_ant,
+  "orchard_by_nmda_antagonist",
+  w = 9,
+  h = 6
+)
+```
+```{r moderator_species, message=FALSE, warning=FALSE}
+mods_formula <- ~ 0 + species
+m_sp <- fit_mv(dat_es, V_main, mods = mods_formula)
+
+print(m_sp$rob)
+
+tbl_sp <- coef_table(m_sp$rob, "Moderator: Species")
+write.csv(
+  tbl_sp,
+  "tables/mod_species_coefficients.csv",
+  row.names = FALSE
+)
+
+p_sp <- orchard_mod_plot(
+  m_sp$rob,
+  mod = "species",
+  title = "By Species"
+)
+
+print(p_sp)
+
+save_both(
+  p_sp,
+  "orchard_by_species",
+  w = 9,
+  h = 6
+)
+```
+```{r moderator_dev_stage, message=FALSE, warning=FALSE}
+mods_formula <- ~ 0 + developmental_stage_induction
+m_dev <- fit_mv(dat_es, V_main, mods = mods_formula)
+
+print(m_dev$rob)
+
+tbl_dev <- coef_table(
+  m_dev$rob,
+  "Moderator: Developmental stage (induction)"
+)
+write.csv(
+  tbl_dev,
+  "tables/mod_developmental_stage_induction_coefficients.csv",
+  row.names = FALSE
+)
+
+p_dev <- orchard_mod_plot(
+  m_dev$rob,
+  mod = "developmental_stage_induction",
+  title = "By Developmental stage (induction)"
+)
+
+print(p_dev)
+
+save_both(
+  p_dev,
+  "orchard_by_developmental_stage_induction",
+  w = 9,
+  h = 6
+)
+```
+```{r moderator_route, message=FALSE, warning=FALSE}
+mods_formula <- ~ 0 + nmda_administration_route
+m_rt <- fit_mv(dat_es, V_main, mods = mods_formula)
+
+print(m_rt$rob)
+
+tbl_rt <- coef_table(
+  m_rt$rob,
+  "Moderator: Administration route"
+)
+write.csv(
+  tbl_rt,
+  "tables/mod_nmda_administration_route_coefficients.csv",
+  row.names = FALSE
+)
+
+p_rt <- orchard_mod_plot(
+  m_rt$rob,
+  mod = "nmda_administration_route",
+  title = "By Administration route"
+)
+
+print(p_rt)
+
+save_both(
+  p_rt,
+  "orchard_by_nmda_administration_route",
+  w = 9,
+  h = 6
+)
+```
+```{r moderator_schedule, message=FALSE, warning=FALSE}
+mods_formula <- ~ 0 + nmda_schedule
+m_sch <- fit_mv(dat_es, V_main, mods = mods_formula)
+
+print(m_sch$rob)
+
+tbl_sch <- coef_table(
+  m_sch$rob,
+  "Moderator: Schedule"
+)
+write.csv(
+  tbl_sch,
+  "tables/mod_nmda_schedule_coefficients.csv",
+  row.names = FALSE
+)
+
+p_sch <- orchard_mod_plot(
+  m_sch$rob,
+  mod = "nmda_schedule",
+  title = "By Schedule"
+)
+
+print(p_sch)
+
+save_both(
+  p_sch,
+  "orchard_by_nmda_schedule",
+  w = 9,
+  h = 6
+)
+```
+
+# Meta-regression
+
+## Cumulative exposure
+
+```{r metareg_cumexp, message=FALSE, warning=FALSE}
+dat_cum <- dat_es %>%
+  filter(species %in% c("Rat", "Mouse")) %>%
+  mutate(
+    nmda_cumulative_exposure = na_if(nmda_cumulative_exposure, "NA"),
+    nmda_cumulative_exposure = na_if(nmda_cumulative_exposure, ""),
+    nmda_cumulative_exposure = as.numeric(nmda_cumulative_exposure)
+  ) %>%
+  filter(!is.na(nmda_cumulative_exposure))
+
+V_cum <- make_V(dat_cum, rho = rho_main)
+m_cum <- fit_mv(dat_cum, V_cum, mods = ~ nmda_cumulative_exposure)
+
+print(m_cum$rob)
+write.csv(coef_table(m_cum$rob, "Meta-reg: nmda_cumulative_exposure"), "tables/metareg_cumulative_exposure.csv", row.names = FALSE)
+
+# Visual
+pred_x <- seq(min(dat_cum$nmda_cumulative_exposure, na.rm = TRUE),
+              max(dat_cum$nmda_cumulative_exposure, na.rm = TRUE), length.out = 80)
+pred <- predict(m_cum$raw, newmods = pred_x)
+
+p_cum <- ggplot(dat_cum, aes(x = nmda_cumulative_exposure, y = yi)) +
+  geom_point(alpha = 0.25) +
+  geom_line(data = data.frame(x = pred_x, y = pred$pred),
+            aes(x = x, y = y), linewidth = 1, color = "black") +
+  labs(title = "Meta-regression: cumulative exposure vs effect size (Rat+Mouse)",
+       x = "nmda_cumulative_exposure", y = "Hedges g") +
+  theme_minimal(base_size = 12)
+p_cum
+save_both(p_cum, "metareg_cumulative_exposure", w = 9, h = 6)
+```
+
+**Meta-regression of cumulative exposure versus effect size.** The regression coefficient indicates whether increasing cumulative exposure is associated with changes in effect size, suggesting a potential dose–response relationship.
+
+## Log-transformed cumulative exposure
+
+```{r metareg_cumexp_log, message=FALSE, warning=FALSE}
+dat_cum <- dat_cum %>%
+  filter(nmda_cumulative_exposure > 0) %>%
+  mutate(
+    log_nmda_cumulative_exposure = log10(nmda_cumulative_exposure)
+  )
+
+V_cum_log <- make_V(dat_cum, rho = rho_main)
+m_cum_log <- fit_mv(
+  dat_cum,
+  V_cum_log,
+  mods = ~ log_nmda_cumulative_exposure
+)
+
+print(m_cum_log$rob)
+
+write.csv(
+  coef_table(m_cum_log$rob, "Meta-reg: log10(nmda_cumulative_exposure)"),
+  "tables/metareg_log_cumulative_exposure.csv",
+  row.names = FALSE
+)
+
+# Visual
+pred_x_log <- seq(
+  min(dat_cum$log_nmda_cumulative_exposure, na.rm = TRUE),
+  max(dat_cum$log_nmda_cumulative_exposure, na.rm = TRUE),
+  length.out = 80
+)
+
+pred_log <- predict(
+  m_cum_log$raw,
+  newmods = pred_x_log
+)
+
+p_cum_log <- ggplot(
+  dat_cum,
+  aes(x = log_nmda_cumulative_exposure, y = yi)
+) +
+  geom_point(alpha = 0.25) +
+  geom_line(
+    data = data.frame(x = pred_x_log, y = pred_log$pred),
+    aes(x = x, y = y),
+    linewidth = 1,
+    color = "black"
+  ) +
+  labs(
+    title = "Meta-regression: log cumulative exposure vs effect size (Rat+Mouse)",
+    x = expression(log[10]~"(NMDA cumulative exposure)"),
+    y = "Hedges g"
+  ) +
+  theme_minimal(base_size = 12)
+
+p_cum_log
+save_both(p_cum_log, "metareg_log_cumulative_exposure", w = 9, h = 6)
+```
+
+**Meta-regression of log-transformed cumulative exposure.** The log-transformed model evaluates potential non-linear exposure–effect relationships and the robustness of the association.
+
+# Sensitivity analyses
+
+## Rho sensitivity
+
+```{r rho_sensitivity, message=FALSE, warning=FALSE}
+sens <- lapply(rho_values, function(r) {
+  V <- make_V(dat_es, rho = r)
+  m <- fit_mv(dat_es, V)
+  ct <- coef_table(m$rob, paste0("rho=", r))
+  ct$rho <- r
+  ct
+}) %>% bind_rows()
+
+write.csv(
+  sens,
+  "tables/rho_sensitivity_overall.csv",
+  row.names = FALSE
+)
+
+sens_overall <- sens %>%
+  filter(term %in% c("intrcpt", "(Intercept)", "Intercept")) %>%
+  transmute(
+    rho = rho,
+    estimate = estimate,
+    ci = paste0("[", round(ci_lb, 3), ", ", round(ci_ub, 3), "]")
+  )
+
+sens_overall
+
+p_rho <- ggplot(sens_overall, aes(x = rho, y = estimate)) +
+  geom_point() +
+  geom_line() +
+  geom_errorbar(
+    aes(
+      ymin = as.numeric(sub(",.*", "", gsub("\\[", "", ci))),
+      ymax = as.numeric(sub(".*, ", "", gsub("\\]", "", ci)))
+    ),
+    width = 0.03
+  ) +
+  labs(
+    title = "Rho sensitivity (overall)",
+    x = "rho",
+    y = "Overall effect (Hedges g)"
+  ) +
+  theme_minimal(base_size = 12)
+
+p_rho
+save_both(p_rho, "rho_sensitivity_overall", w = 7, h = 5)
+```
+
+**Sensitivity of the overall effect to within-study correlation (rho).** This analysis evaluates the robustness of the pooled effect size to assumptions about the correlation between multiple effect sizes within the same experiment. Each row reports the overall effect estimate (Hedges’ g) and 95% confidence interval obtained under a different assumed value of rho. Stability of estimates across rho values indicates robustness to within-study dependency assumptions.
+
+## Leave-one-study-out
+
+```{r loo, message=FALSE, warning=FALSE}
+studies <- levels(dat_es$study_id)
+n <- length(studies)
+
+loo_tbl <- lapply(seq_along(studies), function(i) {
+
+  s <- studies[i]
+
+  d <- dat_es %>% filter(study_id != s)
+
+  V <- make_V(d, rho = rho_main)
+  m <- fit_mv(d, V)
+
+  coef_table(m$rob, model_name = "LOO") %>%
+    filter(term %in% c("intrcpt", "(Intercept)", "Intercept")) %>%
+    transmute(
+      left_out_study = as.character(s),
+      estimate = estimate,
+      ci_lb = ci_lb,
+      ci_ub = ci_ub
+    )
+}) %>% bind_rows()
+
+write.csv(
+  loo_tbl,
+  "tables/leave_one_study_out_overall.csv",
+  row.names = FALSE
+)
+loo_tbl
+```
+
+**Leave-one-study-out analysis.** Each row reports the pooled effect size (Hedges’ g) and 95% confidence interval obtained after excluding one study at a time from the meta-analysis. This analysis evaluates the influence of individual studies on the overall estimate; substantial changes after removal of a study would indicate disproportionate influence.
+
+## Excluding high risk of bias
+
+```{r rob_exclusion, message=FALSE, warning=FALSE}
+dat_no_high <- dat_es %>%
+  filter(is.na(overall_rob) | overall_rob != "High")
+
+V_no_high <- make_V(dat_no_high, rho = rho_main)
+m_no_high <- fit_mv(dat_no_high, V_no_high)
+
+print(m_no_high$rob)
+
+write.csv(coef_table(m_no_high$rob, "Overall excl High RoB"), "tables/overall_excluding_high_rob.csv", row.names = FALSE)
+
+p_no_high <- orchard_overall_plot(m_no_high$rob, title = "Overall effect (excluding High RoB)")
+p_no_high
+save_both(p_no_high, "orchard_overall_excluding_high_rob", w = 8, h = 6)
+```
+
+**Overall effect excluding high risk-of-bias studies.** This sensitivity analysis re-estimates the overall meta-analytic effect after excluding studies classified as having high risk of bias. The purpose of this analysis is to assess whether the pooled effect estimate is robust to the exclusion of potentially biased evidence.
+
+# Annex: Individual effect sizes included in the meta-analysis
+
+## Calculated effect sizes
+
+```{r forest_overall, message=FALSE, warning=FALSE}
+forest_tbl <- dat_es %>%
+  transmute(
+    study = if ("study_label" %in% names(.)) study_label else as.character(study_id),
+    effect_id = if ("effect_id" %in% names(.)) effect_id else NA,
+    nmda_antagonist = as.character(nmda_antagonist),
+    hedges_g = round(yi, 3),
+    ci_lb = round(yi - 1.96 * sqrt(vi), 3),
+    ci_ub = round(yi + 1.96 * sqrt(vi), 3)
+  )
+
+write.csv(
+  forest_tbl,
+  "tables/effect_sizes_by_nmda_antagonist.csv",
+  row.names = FALSE
+)
+
+forest_tbl
+```
+
+**Individual effect sizes included in the meta-analysis.** This table lists all calculated Hedges’ g values and corresponding confidence intervals used in the analyses.
+
+# Session info
+
+```{r sessioninfo}
+sessionInfo()
+```

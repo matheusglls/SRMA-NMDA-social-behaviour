@@ -1,0 +1,27 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAmisulpride × Ketamine",1.08435901951388,0.81892624813757,-0.52073642683576,2.68945446586351
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × Ketamine",4.00389068515115,0,4.00389068515115,4.00389068515115
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionChlorpromazine × Ketamine",-0.533904285088488,0,-0.533904285088488,-0.533904285088488
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Ketamine",1.46074359334369,0.879363351563758,-0.262808575721272,3.18429576240866
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Ketamine",0.398596934807842,0.440847961265871,-0.465465069273265,1.26265893888895
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × Ketamine",2.24790203752714,0.428366236155966,1.40830421466145,3.08749986039284
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × Ketamine",0.694894242959494,0.5365450890464,-0.35673413157145,1.74652261749044
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionSulpiride × Ketamine",0.229659526732763,0.743737453673453,-1.22806588246721,1.68738493593273
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × MK-801",1.01712077438129,0.964298339111624,-0.872903970277496,2.90714551904007
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × MK-801",1.24335469435412,0.254388750264263,0.744752743836167,1.74195664487208
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × MK-801",-0.39879854166372,0.438653146157438,-1.2585587081323,0.460961624804859
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionLurasidone × MK-801",0.762468738502105,0.637669766786689,-0.487364004399805,2.01230148140401
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × MK-801",-0.0448474336106707,0.44754909097439,-0.922043651920476,0.832348784699134
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × MK-801",0.119732170293316,0.319710460908038,-0.506900333086438,0.746364673673071
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionSulpiride × MK-801",2.05883602752555,0.299428144773641,1.47195686376922,2.64571519128189
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × Phencyclidine",0.976448512528452,0.489830964916101,0.0163798212928948,1.93651720376401
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionCariprazine × Phencyclidine",1.02693914720595,0.429799796543152,0.184531545981371,1.86934674843053
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionChlorpromazine × Phencyclidine",-0.527789990789274,0.335996888912419,-1.18634389305762,0.130763911479068
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Phencyclidine",0.257049487610146,0.379379009476361,-0.486533370963521,1.00063234618381
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Phencyclidine",-0.214648103914752,0.285047472707655,-0.773341150421756,0.344044942592251
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionLurasidone × Phencyclidine",0.427819119172005,4.37285826869556,-8.14298308747129,8.9986213258153
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × Phencyclidine",0.884916301961757,0.360003129567394,0.179310168009666,1.59052243591385
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionQuetiapine × Phencyclidine",0.76371169015238,0.28454095581187,0.206011416761115,1.32141196354364
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × Phencyclidine",0.563803770788233,0.218828287133061,0.134900328007433,0.992707213569033
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionSulpiride × Phencyclidine",0.52702903703481,2.31785855349269,-4.01597372781086,5.07003180188049
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionZiprasidone × Phencyclidine",0.715567005188979,0.900852918457895,-1.0501047149885,2.48123872536645

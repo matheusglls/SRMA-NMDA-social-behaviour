@@ -1,0 +1,3 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Meta-reg: atp_cumulative_exposure","intrcpt",0.566197716831641,0.110232736219987,0.350141553840466,0.782253879822815
+"Meta-reg: atp_cumulative_exposure","atp_cumulative_exposure",0.00372412807547256,0.00132948297833499,0.00111834143793599,0.00632991471300914

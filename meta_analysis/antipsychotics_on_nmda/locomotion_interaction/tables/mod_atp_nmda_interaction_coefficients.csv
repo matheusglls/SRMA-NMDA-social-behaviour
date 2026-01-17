@@ -1,0 +1,17 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Ketamine",-0.674055195215454,0.64208839574787,-1.93254845088128,0.584438060450372
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Ketamine",0.150875669399621,0.374045802786125,-0.582254104061183,0.884005442860426
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × Ketamine",0.0131720844594862,0.405488445146924,-0.781585268028484,0.807929436947457
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × MK-801",-0.350619012690204,0.473445559172706,-1.27857230866871,0.5773342832883
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × MK-801",0.0150213098122549,0.374402564594135,-0.718807716792249,0.748850336416759
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × MK-801",-0.585831132284991,0.311420617260247,-1.19621554211507,0.0245532775450917
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × MK-801",-0.685051630482669,0.712282909517649,-2.08112613313726,0.711022872171923
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionAripiprazole × Phencyclidine",-2.02087617661459,0,-2.02087617661459,-2.02087617661459
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionCariprazine × Phencyclidine",-1.43424599154298,0.32327525038851,-2.06786548230446,-0.800626500781499
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionChlorpromazine × Phencyclidine",0.0445173844165466,0.298324027905938,-0.540197710279092,0.629232479112185
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionClozapine × Phencyclidine",-0.600763459022028,0.457698487588646,-1.49785249469577,0.296325576651718
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionHaloperidol × Phencyclidine",-1.15193530812816,0.498542974107139,-2.12907953737815,-0.17479107887817
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionOlanzapine × Phencyclidine",-0.508934138279918,0.256385483862168,-1.01144968664977,-0.00641858991006805
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionQuetiapine × Phencyclidine",-0.891159797062726,0.725313487756512,-2.31277423306549,0.530454638940038
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionRisperidone × Phencyclidine",-0.679107304789529,0.410061605321572,-1.48282805121981,0.124613441640753
+"Moderator: Antipsychotic × NMDA antagonist","atp_nmda_interactionSulpiride × Phencyclidine",-0.591920903994402,2.92449244009332,-6.32392608657731,5.1400842785885

@@ -1,0 +1,123 @@
+"study","effect_id","species","nmda_antagonist","atp_drug","hedges_g","ci_lb","ci_ub"
+"Gururajan 2011",7,"Rat","MK-801","Clozapine",-0.958,-1.883,-0.032
+"Gururajan 2011",8,"Rat","MK-801","Clozapine",-1.387,-2.363,-0.411
+"Gururajan 2011",9,"Rat","MK-801","Clozapine",-1.935,-2.997,-0.873
+"Gururajan 2011",13,"Rat","MK-801","Clozapine",0.4,-0.485,1.285
+"Gururajan 2011",14,"Rat","MK-801","Clozapine",-0.844,-1.759,0.071
+"Gururajan 2011",15,"Rat","MK-801","Clozapine",-0.869,-1.786,0.048
+"Sams-Dodd 1997",33,"Rat","Phencyclidine","Risperidone",-0.272,-1.076,0.532
+"Sams-Dodd 1997",39,"Rat","Phencyclidine","Risperidone",0.765,-0.064,1.593
+"Sams-Dodd 1997",34,"Rat","Phencyclidine","Risperidone",-1.59,-2.508,-0.672
+"Sams-Dodd 1997",40,"Rat","Phencyclidine","Risperidone",-0.765,-1.594,0.064
+"Sams-Dodd 1997",57,"Rat","Phencyclidine","Quetiapine",-0.274,-1.078,0.53
+"Sams-Dodd 1997",65,"Rat","Phencyclidine","Quetiapine",-0.406,-1.214,0.402
+"Sams-Dodd 1997",46,"Rat","Phencyclidine","Olanzapine",-0.578,-1.394,0.239
+"Sams-Dodd 1997",51,"Rat","Phencyclidine","Olanzapine",-0.095,-0.896,0.705
+"Sams-Dodd 1997",35,"Rat","Phencyclidine","Risperidone",-3.189,-4.395,-1.983
+"Sams-Dodd 1997",41,"Rat","Phencyclidine","Risperidone",-1.907,-2.872,-0.942
+"Sams-Dodd 1997",58,"Rat","Phencyclidine","Quetiapine",-0.886,-1.724,-0.047
+"Sams-Dodd 1997",66,"Rat","Phencyclidine","Quetiapine",-0.931,-1.774,-0.089
+"Sams-Dodd 1997",47,"Rat","Phencyclidine","Olanzapine",-0.872,-1.709,-0.035
+"Sams-Dodd 1997",52,"Rat","Phencyclidine","Olanzapine",0.069,-0.732,0.869
+"Sams-Dodd 1997",53,"Rat","Phencyclidine","Olanzapine",-1.621,-2.543,-0.698
+"Sams-Dodd 1997",59,"Rat","Phencyclidine","Quetiapine",-0.809,-1.641,0.023
+"Sams-Dodd 1997",67,"Rat","Phencyclidine","Quetiapine",-1.457,-2.357,-0.557
+"Sams-Dodd 1997",48,"Rat","Phencyclidine","Olanzapine",-4.463,-5.957,-2.968
+"Sams-Dodd 1997",60,"Rat","Phencyclidine","Quetiapine",-1.939,-2.909,-0.969
+"Sams-Dodd 1997",68,"Rat","Phencyclidine","Quetiapine",-1.546,-2.648,-0.443
+"Sams-Dodd 1998",95,"Rat","Phencyclidine","Clozapine",0.153,-0.648,0.954
+"Sams-Dodd 1998",73,"Rat","Phencyclidine","Haloperidol",-0.136,-0.937,0.665
+"Sams-Dodd 1998",81,"Rat","Phencyclidine","Haloperidol",-0.277,-1.081,0.527
+"Sams-Dodd 1998",89,"Rat","Phencyclidine","Clozapine",-0.256,-1.059,0.547
+"Sams-Dodd 1998",96,"Rat","Phencyclidine","Clozapine",-0.316,-1.122,0.489
+"Sams-Dodd 1998",74,"Rat","Phencyclidine","Haloperidol",-0.835,-1.67,-0.001
+"Sams-Dodd 1998",82,"Rat","Phencyclidine","Haloperidol",-1.405,-2.299,-0.512
+"Sams-Dodd 1998",90,"Rat","Phencyclidine","Clozapine",-0.969,-1.815,-0.123
+"Sams-Dodd 1998",97,"Rat","Phencyclidine","Clozapine",-0.058,-0.858,0.743
+"Sams-Dodd 1998",75,"Rat","Phencyclidine","Haloperidol",-1.78,-2.726,-0.835
+"Sams-Dodd 1998",83,"Rat","Phencyclidine","Haloperidol",-0.71,-1.535,0.115
+"Sams-Dodd 1998",76,"Rat","Phencyclidine","Haloperidol",-3.538,-4.819,-2.256
+"Sams-Dodd 1998",84,"Rat","Phencyclidine","Haloperidol",-0.788,-1.618,0.043
+"Sams-Dodd 1998",98,"Rat","Phencyclidine","Clozapine",-0.303,-1.108,0.502
+"Sams-Dodd 1998",91,"Rat","Phencyclidine","Clozapine",-1.386,-2.277,-0.495
+"Pouzet 2002 b",136,"Rat","Phencyclidine","Risperidone",-2.409,-3.895,-0.923
+"Pouzet 2002 b",137,"Rat","Phencyclidine","Risperidone",-5.003,-7.302,-2.703
+"Kaminska 2015",179,"Rat","MK-801","Risperidone",-0.204,-1.339,0.93
+"Kaminska 2015",185,"Rat","MK-801","Risperidone",0.101,-1.031,1.234
+"Kaminska 2015",180,"Rat","MK-801","Risperidone",0.275,-0.862,1.412
+"Maehara 2011",188,"Rat","MK-801","Clozapine",-0.05,-1.083,0.984
+"Maehara 2011",189,"Rat","MK-801","Clozapine",-0.065,-1.099,0.968
+"Gacsalyi 2013",212,"Rat","Phencyclidine","Olanzapine",-0.877,-2.328,0.574
+"Neill 2016",225,"Rat","Phencyclidine","Cariprazine",-0.081,-1.062,0.899
+"Neill 2016",226,"Rat","Phencyclidine","Cariprazine",-1.368,-2.457,-0.28
+"Neill 2016",228,"Rat","Phencyclidine","Risperidone",-0.164,-1.146,0.818
+"Neill 2016",227,"Rat","Phencyclidine","Cariprazine",-2.23,-3.478,-0.982
+"Sams-Dodd 1996",233,"Rat","Phencyclidine","Haloperidol",1.234,0.361,2.107
+"Sams-Dodd 1996",234,"Rat","Phencyclidine","Haloperidol",-2.592,-3.677,-1.507
+"Sams-Dodd 1996",243,"Rat","Phencyclidine","Clozapine",0.293,-0.511,1.097
+"Sams-Dodd 1996",244,"Rat","Phencyclidine","Clozapine",-1.177,-2.043,-0.31
+"Sams-Dodd 1996",239,"Rat","Phencyclidine","Haloperidol",0.089,-0.711,0.89
+"Sams-Dodd 1996",240,"Rat","Phencyclidine","Haloperidol",-1.15,-2.013,-0.286
+"Sams-Dodd 1996",241,"Rat","Phencyclidine","Haloperidol",-4.93,-6.538,-3.322
+"Sams-Dodd 1996",251,"Rat","Phencyclidine","Clozapine",-0.079,-0.879,0.722
+"Sams-Dodd 1996",242,"Rat","Phencyclidine","Haloperidol",-2.926,-4.078,-1.775
+"Sams-Dodd 1996",252,"Rat","Phencyclidine","Clozapine",-1.26,-2.136,-0.384
+"Sams-Dodd 1996",253,"Rat","Phencyclidine","Clozapine",-1.533,-2.443,-0.623
+"Sams-Dodd 1996",254,"Rat","Phencyclidine","Clozapine",-2.002,-2.982,-1.022
+"Sams-Dodd 1998 d",259,"Rat","Phencyclidine","Sulpiride",-0.155,-0.957,0.646
+"Sams-Dodd 1998 d",260,"Rat","Phencyclidine","Sulpiride",-0.55,-1.366,0.265
+"Sams-Dodd 1998 d",261,"Rat","Phencyclidine","Sulpiride",-0.927,-1.769,-0.085
+"Sams-Dodd 1998 d",262,"Rat","Phencyclidine","Sulpiride",-2.223,-3.241,-1.205
+"Vijeepallam 2016",268,"Mouse","Ketamine","Clozapine",-0.111,-0.804,0.583
+"Becker 2004",295,"Rat","Ketamine","Risperidone",-0.635,-1.538,0.268
+"Becker 2004",292,"Rat","Ketamine","Clozapine",-8.925,-12.396,-5.454
+"Becker 2004",283,"Rat","Ketamine","Haloperidol",0.155,-0.861,1.171
+"Becker 2004",289,"Rat","Ketamine","Risperidone",-0.205,-1.064,0.653
+"Becker 2004",286,"Rat","Ketamine","Clozapine",-0.668,-1.573,0.237
+"Becker 2004",274,"Rat","Ketamine","Haloperidol",-0.461,-1.328,0.407
+"Becker 2004",280,"Rat","Ketamine","Risperidone",-0.152,-0.989,0.685
+"Becker 2004",277,"Rat","Ketamine","Clozapine",-0.835,-1.864,0.195
+"Satow 2009",316,"Rat","MK-801","Haloperidol",0.295,-0.656,1.246
+"Satow 2009",317,"Rat","MK-801","Haloperidol",-2.19,-3.345,-1.034
+"Satow 2009",318,"Rat","MK-801","Haloperidol",-1.077,-1.958,-0.196
+"Satow 2009",319,"Rat","MK-801","Haloperidol",-2.979,-4.555,-1.403
+"Satow 2009",322,"Rat","MK-801","Clozapine",0.365,-0.776,1.506
+"Satow 2009",323,"Rat","MK-801","Clozapine",0.361,-0.779,1.502
+"Tarland 2017",334,"Rat","Phencyclidine","Aripiprazole",-2.021,-3.308,-0.733
+"Corbett 1995",375,"Rat","Phencyclidine","Risperidone",-0.251,-1.388,0.885
+"Corbett 1995",367,"Rat","Phencyclidine","Haloperidol",-2.995,-4.643,-1.347
+"Corbett 1995",376,"Rat","Phencyclidine","Risperidone",-1.752,-3.083,-0.421
+"Corbett 1995",368,"Rat","Phencyclidine","Haloperidol",-4.675,-6.862,-2.489
+"Corbett 1995",383,"Rat","Phencyclidine","Olanzapine",-0.478,-1.625,0.67
+"Corbett 1995",384,"Rat","Phencyclidine","Olanzapine",-1.805,-3.148,-0.463
+"Corbett 1995",371,"Rat","Phencyclidine","Chlorpromazine",0.161,-0.973,1.294
+"Corbett 1995",372,"Rat","Phencyclidine","Chlorpromazine",-1.283,-2.526,-0.041
+"Corbett 1995",379,"Rat","Phencyclidine","Clozapine",-1.165,-2.389,0.059
+"Corbett 1995",380,"Rat","Phencyclidine","Clozapine",-1.063,-2.272,0.146
+"Gururajan 2012",392,"Rat","MK-801","Clozapine",-1.427,-2.816,-0.039
+"Gururajan 2012",393,"Rat","MK-801","Clozapine",-0.696,-1.972,0.581
+"Hereta 2019",404,"Rat","MK-801","Aripiprazole",-0.804,-1.981,0.372
+"Hereta 2019",405,"Rat","MK-801","Aripiprazole",-0.316,-1.454,0.823
+"Hereta 2019",410,"Rat","MK-801","Aripiprazole",0.543,-0.609,1.695
+"Hereta 2019",413,"Rat","MK-801","Aripiprazole",-0.794,-1.969,0.381
+"Hereta 2019",406,"Rat","MK-801","Aripiprazole",-1.058,-2.267,0.15
+"Hereta 2019",407,"Rat","MK-801","Aripiprazole",-0.719,-1.886,0.449
+"Morimoto 2002",444,"Rat","MK-801","Risperidone",-1.235,-2.588,0.117
+"Morimoto 2002",445,"Rat","MK-801","Risperidone",-0.147,-1.389,1.094
+"Morimoto 2002",446,"Rat","MK-801","Risperidone",-1.429,-2.818,-0.04
+"Morimoto 2002",447,"Rat","MK-801","Risperidone",-3.258,-5.149,-1.367
+"Morimoto 2002",422,"Rat","MK-801","Clozapine",-0.167,-1.409,1.075
+"Morimoto 2002",423,"Rat","MK-801","Clozapine",0.893,-0.407,2.193
+"Morimoto 2002",424,"Rat","MK-801","Clozapine",0.531,-0.731,1.792
+"Morimoto 2002",425,"Rat","MK-801","Clozapine",-1.141,-2.478,0.196
+"Morimoto 2002",426,"Rat","MK-801","Clozapine",-9.484,-13.822,-5.147
+"Morimoto 2002",431,"Rat","MK-801","Haloperidol",-0.189,-1.431,1.053
+"Morimoto 2002",432,"Rat","MK-801","Haloperidol",-0.386,-1.637,0.866
+"Morimoto 2002",433,"Rat","MK-801","Haloperidol",-1.756,-3.215,-0.297
+"Morimoto 2002",434,"Rat","MK-801","Haloperidol",-6.697,-9.883,-3.511
+"Rung 2005 b",463,"Rat","MK-801","Haloperidol",-0.233,-1.161,0.694
+"Rung 2005 b",464,"Rat","MK-801","Haloperidol",-2.953,-4.289,-1.617
+"Rung 2005 b",465,"Rat","MK-801","Haloperidol",-3.768,-5.307,-2.229
+"Rung 2005 b",469,"Rat","MK-801","Clozapine",0.115,-1.017,1.248
+"Rung 2005 b",470,"Rat","MK-801","Clozapine",0.281,-0.856,1.419
+"Rung 2005 b",471,"Rat","MK-801","Clozapine",-0.102,-1.234,1.03

@@ -1,0 +1,4 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: NMDA antagonist","nmda_antagonistKetamine",-2.54236192172238,0.387926789148721,-3.30269842845387,-1.78202541499089
+"Moderator: NMDA antagonist","nmda_antagonistMK-801",-1.56048580330397,0.221583290455377,-1.9947890525965,-1.12618255401143
+"Moderator: NMDA antagonist","nmda_antagonistPhencyclidine",-1.88038657851404,0.225824605414807,-2.32300280512707,-1.43777035190102

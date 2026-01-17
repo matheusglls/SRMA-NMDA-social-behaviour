@@ -1,0 +1,5 @@
+"model","term","estimate","se","ci_lb","ci_ub"
+"Moderator: Developmental stage (induction)","developmental_stage_inductionAdult",0.00087180158784674,0.191775541903886,-0.375008260543769,0.376751863719462
+"Moderator: Developmental stage (induction)","developmental_stage_inductionJuvenile/Adolescent",0.456510663870012,0.31038066567472,-0.151835440852439,1.06485676859246
+"Moderator: Developmental stage (induction)","developmental_stage_inductionNeonate",0.07704423954389,0.360762721241117,-0.630050694088699,0.784139173176479
+"Moderator: Developmental stage (induction)","developmental_stage_inductionUnclear",0.23388009989119,0.0488929995644271,0.138049820744913,0.329710379037468

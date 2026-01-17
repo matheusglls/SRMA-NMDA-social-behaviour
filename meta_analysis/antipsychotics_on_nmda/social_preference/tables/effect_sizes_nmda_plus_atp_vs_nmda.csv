@@ -1,0 +1,41 @@
+"study","effect_id","species","nmda_antagonist","atp_drug","hedges_g","ci_lb","ci_ub"
+"Ben-Azu 2018",5,"Mouse","Ketamine","Risperidone",6.972,4.185,9.759
+"Ben-Azu 2018",4,"Mouse","Ketamine","Haloperidol",-1.96,-3.235,-0.686
+"Nikiforuk 2016",25,"Rat","Ketamine","Amisulpride",1.622,0.317,2.926
+"Ben-Azu 2018 b",110,"Mouse","Ketamine","Risperidone",3.836,2.07,5.601
+"Ben-Azu 2018 b",111,"Mouse","Ketamine","Risperidone",6.249,3.708,8.79
+"Deiana 2015",118,"Rat","MK-801","Risperidone",-0.301,-0.99,0.388
+"Deiana 2015",115,"Rat","MK-801","Aripiprazole",-0.448,-1.143,0.247
+"Deiana 2015",119,"Rat","MK-801","Olanzapine",-0.175,-1.012,0.662
+"Deiana 2015",116,"Rat","MK-801","Aripiprazole",-0.332,-0.844,0.179
+"Deiana 2015",117,"Rat","MK-801","Aripiprazole",-0.437,-0.932,0.057
+"Seibt 2011",155,"Zebrafish","MK-801","Haloperidol",0.519,-0.331,1.369
+"Seibt 2011",156,"Zebrafish","MK-801","Sulpiride",3.48,2.155,4.805
+"Seibt 2011",157,"Zebrafish","MK-801","Olanzapine",11.674,8.125,15.223
+"Tadmor 2018",161,"Mouse","Phencyclidine","Clozapine",1.83,0.786,2.874
+"Tran 2018",162,"Mouse","Phencyclidine","Clozapine",3.206,1.495,4.916
+"Ben-Azu 2018 c",167,"Mouse","Ketamine","Risperidone",5.5,3.357,7.642
+"Ben-Azu 2018 c",166,"Mouse","Ketamine","Haloperidol",0.157,-0.825,1.138
+"Ben-Azu 2018 c",169,"Mouse","Ketamine","Risperidone",5.285,3.208,7.362
+"Ben-Azu 2018 c",168,"Mouse","Ketamine","Haloperidol",-0.108,-1.089,0.872
+"Araujo 2021",170,"Mouse","Ketamine","Olanzapine",2.246,0.994,3.497
+"Araujo 2021",171,"Mouse","Ketamine","Olanzapine",3.874,2.212,5.535
+"Ju 2020",174,"Mouse","MK-801","Risperidone",0.086,-1.101,1.274
+"Ju 2020",175,"Mouse","MK-801","Aripiprazole",0.333,-0.862,1.528
+"Ju 2020",173,"Mouse","MK-801","Olanzapine",0.489,-0.715,1.693
+"Koo 2019",216,"Mouse","MK-801","Aripiprazole",0.298,-0.631,1.227
+"Oshodi 2021",229,"Mouse","Ketamine","Risperidone",2.142,0.828,3.457
+"Oshodi 2021",230,"Mouse","Ketamine","Risperidone",2.394,1.022,3.767
+"Araujo 2016",270,"Mouse","Ketamine","Risperidone",2.178,0.941,3.415
+"Sanavi 2022",272,"Rat","Ketamine","Risperidone",0.778,-0.18,1.736
+"Sanavi 2022",271,"Rat","Ketamine","Clozapine",0.746,-0.209,1.702
+"Gil-Ad 2014",298,"Mouse","Phencyclidine","Olanzapine",-0.203,-1.445,1.04
+"Tran 2016",337,"Mouse","Phencyclidine","Haloperidol",0.234,-0.902,1.369
+"Tran 2016",336,"Mouse","Phencyclidine","Clozapine",2.208,0.772,3.643
+"Tran 2016 b",338,"Mouse","Phencyclidine","Clozapine",1.086,-0.126,2.298
+"Jeong 2022",414,"Mouse","MK-801","Aripiprazole",0.302,-0.627,1.231
+"Monte 2013",415,"Mouse","Ketamine","Risperidone",1.082,0.033,2.131
+"Monte 2013",416,"Mouse","Ketamine","Risperidone",1.309,0.229,2.389
+"Vasconcelos 2015",472,"Mouse","Ketamine","Clozapine",2.476,0.829,4.124
+"Vasconcelos 2015",473,"Mouse","Ketamine","Clozapine",-0.904,-2.205,0.397
+"Xue 2017",478,"Mouse","MK-801","Risperidone",0.27,-0.714,1.254
